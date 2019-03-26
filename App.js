@@ -1,11 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducers from './src/reducers';
+
+import Routes from './src/routes';
+import DeckList from './src/components/DeckList';
+
+const store = createStore(reducers);
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <Provider store={store}>
+          <Routes />
+        </Provider>
       </View>
     );
   }
@@ -14,8 +24,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff'
   },
 });
