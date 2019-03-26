@@ -1,27 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList, Dimensions } from 'react-native';
 import styled from 'styled-components';
-
-const DeskContainer = styled.View`
-  flexDirection: row;
-  height: 80px;
-  marginTop: 7px;
-  padding: 10px;
-  backgroundColor: #ffeaa7;
-  justifyContent: center;
-  alignItems: center;
-  borderRadius: 4;
-  shadowRadius: 3;
-  shadowOpacity: 1;
-  elevation: 1;
-  zIndex: 1
-`;
-
-const ListContainer = styled.View`
-  flex: 1;
-  flexDirection: column;
-  margin: 7px;
-`;
+import { Constants } from 'expo';
 
 function Desk({ title, numberOfCards }) {
   return (
@@ -34,16 +14,96 @@ function Desk({ title, numberOfCards }) {
   );
 }
 
+const decks = {
+  React: {
+    title: 'React',
+    questions: [
+      {
+        question: 'What is React?',
+        answer: 'A library for managing user interfaces'
+      },
+      {
+        question: 'Where do you make Ajax requests in React?',
+        answer: 'The componentDidMount lifecycle event'
+      }
+    ]
+  },
+  JavaScript: {
+    title: 'JavaScript',
+    questions: [
+      {
+        question: 'What is a closure?',
+        answer: 'The combination of a function and the lexical environment within which that function was declared.'
+      }
+    ]
+  }
+}
+
 class DeckList extends Component {
+  renderItem = ({ item }) => {
+    return <Desk key={item} title={item.title} numberOfCards={item.questions.length} />
+  }
+
   render() {
+    const data = Object.keys(decks).map(function(key) {
+      return { 'key': key, ...decks[key]}
+    });
+
     return (
       <ListContainer>
-        <Desk title="React" numberOfCards={5} />
-        <Desk title="React" numberOfCards={5} />
-        <Desk title="React" numberOfCards={5} />
+          <FlatList
+            data={data}
+            renderItem={this.renderItem}
+          />
+
+          <AddButtonOverlay>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => alert('Implementing...')}>
+                <ImageStyled source={require('../../assets/ic_add_circle.png')} />
+            </TouchableOpacity>
+          </AddButtonOverlay>
       </ListContainer>
     );
   }
 }
 
 export default DeckList;
+
+/* Our styling */
+
+const { height, width } = Dimensions.get('window');
+
+const ListContainer = styled.View`
+  flex: 1;
+  flexDirection: column;
+  margin: 7px;
+  zIndex: 1;
+  elevation: 1;
+`;
+
+const DeskContainer = styled.View`
+  flexDirection: row;
+  height: 80px;
+  marginTop: 7px;
+  padding: 10px;
+  backgroundColor: #ffeaa7;
+  justifyContent: center;
+  alignItems: center;
+  borderRadius: 4;
+  shadowRadius: 3;
+  shadowOpacity: 1;
+`;
+
+const ImageStyled = styled.Image`
+  width: 55;
+  height: 55;
+`;
+
+const AddButtonOverlay = styled.View`
+  flexDirection: column;
+  position: absolute;
+  marginTop: ${height - (7 * Constants.statusBarHeight)};
+  marginLeft: ${width - 80};
+  opacity: 0.7;
+`;
