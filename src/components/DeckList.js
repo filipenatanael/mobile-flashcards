@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList, Dimensions } from 'react-native';
 import styled from 'styled-components';
 import { Constants } from 'expo';
+import { Actions } from 'react-native-router-flux';
 
 function Desk({ title, numberOfCards }) {
   return (
@@ -59,7 +60,7 @@ class DeckList extends Component {
           <AddButtonOverlay>
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={() => alert('Implementing...')}>
+              onPress={() => Actions.newDeck() }>
                 <ImageStyled source={require('../../assets/ic_add_circle.png')} />
             </TouchableOpacity>
           </AddButtonOverlay>
@@ -77,22 +78,24 @@ const { height, width } = Dimensions.get('window');
 const ListContainer = styled.View`
   flex: 1;
   flexDirection: column;
-  margin: 7px;
+  marginTop: 0px;
+  marginLeft: 7px;
+  marginRight: 7px;
+  marginBottom: 7px;
   zIndex: 1;
-  elevation: 1;
 `;
 
 const DeskContainer = styled.View`
   flexDirection: row;
-  height: 80px;
-  marginTop: 7px;
+  height: 100px;
+  marginTop: 10px;
   padding: 10px;
-  backgroundColor: #ffeaa7;
+  backgroundColor: #a29bfe;
   justifyContent: center;
   alignItems: center;
   borderRadius: 4;
-  shadowRadius: 3;
   shadowOpacity: 1;
+  elevation: 1;
 `;
 
 const ImageStyled = styled.Image`
