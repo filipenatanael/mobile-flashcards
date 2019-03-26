@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList, Dimensions } from 'react-native';
 import styled from 'styled-components';
 import { Constants } from 'expo';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 function Desk({ title, numberOfCards }) {
@@ -15,37 +16,14 @@ function Desk({ title, numberOfCards }) {
   );
 }
 
-const decks = {
-  React: {
-    title: 'React',
-    questions: [
-      {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
-      },
-      {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
-      }
-    ]
-  },
-  JavaScript: {
-    title: 'JavaScript',
-    questions: [
-      {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
-      }
-    ]
-  }
-}
-
 class DeckList extends Component {
   renderItem = ({ item }) => {
     return <Desk key={item} title={item.title} numberOfCards={item.questions.length} />
   }
 
   render() {
+    const { decks } = this.props;
+
     const data = Object.keys(decks).map(function(key) {
       return { 'key': key, ...decks[key]}
     });
@@ -69,7 +47,11 @@ class DeckList extends Component {
   }
 }
 
-export default DeckList;
+const mapStateToProps = state => ({
+  decks: state.decks
+})
+
+export default connect(mapStateToProps)(DeckList);
 
 /* Our styling */
 
