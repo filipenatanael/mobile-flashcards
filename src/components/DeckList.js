@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Constants } from 'expo';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { addNewDeck } from '../actions';
 
 function Desk({ title, numberOfCards }) {
   return (

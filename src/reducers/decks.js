@@ -25,6 +25,7 @@ initialState = {
 }
 
 export default function(state = initialState, action) {
+  console.log('FROM REDUCER: ', action);
   switch (action.type) {
     case 'RECEIVE_DECKS':
       return {

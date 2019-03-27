@@ -1,6 +1,59 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as DecksActions from '../actions';
+
+class NewDeck extends Component {
+  state = {
+      title: ''
+  }
+
+  // onSubmit() {
+  //    alert('I can refer this.. of that class without bind it on constructor. another way is use arrowfunctions as well')
+  // }
+
+  onSubmit = () => {
+    console.log('entrou no submit!!!');
+    this.props.addNewDeck()
+  }
+
+  render() {
+    return (
+      <Container>
+        <Header>
+          <Title>
+            What is the title of your new deck?
+          </Title>
+        </Header>
+
+        <Body>
+          <TextInputCustom
+            placeholder='New Deck Title'
+            underlineColorAndroid='transparent'
+            maxLength={15}
+            autoCapitalize='words'
+            value={this.state.title}
+            onChangeText={(title) => this.setState({ title })}
+          />
+
+          <TouchableOpacityCustom
+            onPress={this.onSubmit}>
+              <SaveDeckButton>
+                Save Deck
+              </SaveDeckButton>
+          </TouchableOpacityCustom>
+        </Body>
+      </Container>
+    );
+  }
+}
+
+const mapDispachToProps = dispatch =>
+  bindActionCreators(DecksActions, dispatch);
+
+export default connect(null, mapDispachToProps)(NewDeck);
 
 const Container = styled.View`
   flex: 1;
@@ -58,36 +111,3 @@ const SaveDeckButton = styled.Text`
   fontWeight: bold;
   color: #fff;
 `;
-
-class NewDeck extends Component {
-  render() {
-    return (
-      <Container>
-        <Header>
-          <Title>
-            What is the title of your new deck?
-          </Title>
-        </Header>
-
-        <Body>
-          <TextInputCustom
-            placeholder='New Deck Title'
-            underlineColorAndroid='transparent'
-            maxLength={15}
-            autoCapitalize='words'
-            onChangeText={() => false}
-          />
-
-          <TouchableOpacityCustom
-            onPress={() => false}>
-              <SaveDeckButton>
-                Save Deck
-              </SaveDeckButton>
-          </TouchableOpacityCustom>
-        </Body>
-      </Container>
-    );
-  }
-}
-
-export default NewDeck;
