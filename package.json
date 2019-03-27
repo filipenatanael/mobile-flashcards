@@ -13,6 +13,7 @@
     "react-native-router-flux": "^4.0.6",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
