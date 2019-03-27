@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList, Dimensions } from 'react-native';
 import styled from 'styled-components';
 import { Constants } from 'expo';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { addNewDeck } from '../actions';
+import * as DecksActions from '../actions';
 
 function Desk({ title, numberOfCards }) {
   return (
@@ -18,6 +19,10 @@ function Desk({ title, numberOfCards }) {
 }
 
 class DeckList extends Component {
+  componentWillMount() {
+    this.props.loadDeckList();
+  }
+
   renderItem = ({ item }) => {
     return <Desk key={item} title={item.title} numberOfCards={item.questions.length} />
   }
@@ -50,9 +55,12 @@ class DeckList extends Component {
 
 const mapStateToProps = state => ({
   decks: state.decks
-})
+});
 
-export default connect(mapStateToProps)(DeckList);
+const mapDispachToProps = dispatch =>
+  bindActionCreators(DecksActions, dispatch);
+
+export default connect(mapStateToProps, mapDispachToProps)(DeckList);
 
 /* Our styling */
 

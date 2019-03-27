@@ -27,16 +27,24 @@ let dataStore = {
   }
 }
 
-export function saveDeck(){
-  callback(dataStore)
-  // AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(dataStore))
+export function saveDeck(newDeck){
+  // AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, '');
+
+  AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((decksStored) => {
+    let decksJSON = JSON.parse(decksStored);
+    const mergeDesks = { ...decksJSON, ...newDeck};
+    AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(mergeDesks), () => {
+      AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(deckResults)
+    });
+  })
 }
 
 let callback = null
 
 export function deckResults (results) {
-  dataStore = JSON.parse(results)
-  callback(dataStore)
+  console.log('Newdecks Stored [deckResults]: ',JSON.parse(results));
+  // dataStore = JSON.parse(results)
+  // callback(dataStore)
 }
 
 
@@ -49,7 +57,10 @@ export function initDataStore(cb) {
 getDecks: return all of the decks along with their titles, questions, and answers.
 */
 export function getDecks(){
-  return dataStore
+  // return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((results) => {
+
+  // })
+  return dataStore;
 }
 /*
 getDeck: take in a single id argument and return the deck associated with that id.

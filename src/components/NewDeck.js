@@ -15,8 +15,7 @@ class NewDeck extends Component {
   // }
 
   onSubmit = () => {
-    console.log('entrou no submit!!!');
-    this.props.addNewDeck()
+    this.props.addNewDeck(this.state.title)
   }
 
   render() {
