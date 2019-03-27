@@ -1,7 +1,8 @@
+import { ADD_NEW_DESK, RECEIVE_DECKS } from '../actions/decks';
 
 initialState = {
-  React: {
-    title: 'React',
+  CardDemo: {
+    title: 'Card Demo Redux',
     questions: [
       {
         question: 'What is React?',
@@ -18,13 +19,12 @@ initialState = {
 export default function(state = initialState, action) {
   console.log('FROM REDUCER: ', action);
   switch (action.type) {
-    case 'RECEIVE_DECKS':
-    console.log('RECEIVE_DECKS', action.payload);
+    case RECEIVE_DECKS:
       return {
         ...state,
         ...action.payload
       }
-    case 'ADD_NEW_DESK':
+    case ADD_NEW_DESK:
       return {
         ...state,
         ...action.payload

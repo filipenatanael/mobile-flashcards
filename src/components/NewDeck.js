@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as DecksActions from '../actions';
+import * as DecksActions from '../actions/decks';
 
 class NewDeck extends Component {
   state = {

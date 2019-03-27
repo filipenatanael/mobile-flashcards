@@ -5,7 +5,7 @@ import { Constants } from 'expo';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import * as DecksActions from '../actions';
+import * as DecksActions from '../actions/decks';
 
 function Desk({ title, numberOfCards }) {
   return (
