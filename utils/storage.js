@@ -3,40 +3,44 @@ import { AsyncStorage } from 'react-native'
 export const FLASHCARD_STORAGE_KEY = 'MobileFlashcards:flashcards'
 
 let dataStore = {
-  React: {
-    title: 'React',
+  CardDemo: {
+    title: 'CardDemo',
     questions: [
       {
         question: 'What is React?',
         answer: 'A library for managing user interfaces'
-      },
-      {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
       }
     ]
   },
-  JavaScript: {
-    title: 'JavaScript',
-    questions: [
-      {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
-      }
-    ]
-  }
+  // JavaScript: {
+  //   title: 'JavaScript',
+  //   questions: [
+  //     {
+  //       question: 'What is a closure?',
+  //       answer: 'The combination of a function and the lexical environment within which that function was declared.'
+  //     }
+  //   ]
+  // }
 }
 
-export function saveDeck(){
-  callback(dataStore)
-  // AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(dataStore))
+export function saveDeck(newDeck){
+  // AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, '');
+
+  AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((decksStored) => {
+    let decksJSON = JSON.parse(decksStored);
+    const mergeDesks = { ...decksJSON, ...newDeck};
+    AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(mergeDesks), () => {
+      AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(deckResults)
+    });
+  })
 }
 
 let callback = null
 
 export function deckResults (results) {
-  dataStore = JSON.parse(results)
-  callback(dataStore)
+  console.log('Newdecks Stored [deckResults]: ',JSON.parse(results));
+  // dataStore = JSON.parse(results)
+  // callback(dataStore)
 }
 
 
@@ -49,7 +53,13 @@ export function initDataStore(cb) {
 getDecks: return all of the decks along with their titles, questions, and answers.
 */
 export function getDecks(){
-  return dataStore
+  return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
+    .then(response => JSON.parse(response))
+      .then(response => {
+        return response !== null
+          ? response
+          : dataStore
+  });
 }
 /*
 getDeck: take in a single id argument and return the deck associated with that id.

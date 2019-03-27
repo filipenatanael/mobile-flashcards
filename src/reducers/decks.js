@@ -1,7 +1,8 @@
+import { ADD_NEW_DESK, RECEIVE_DECKS } from '../actions/decks';
 
 initialState = {
-  React: {
-    title: 'React',
+  CardDemo: {
+    title: 'Card Demo Redux',
     questions: [
       {
         question: 'What is React?',
@@ -12,21 +13,18 @@ initialState = {
         answer: 'The componentDidMount lifecycle event'
       }
     ]
-  },
-  JavaScript: {
-    title: 'JavaScript',
-    questions: [
-      {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
-      }
-    ]
   }
 }
 
 export default function(state = initialState, action) {
+  console.log('FROM REDUCER: ', action);
   switch (action.type) {
-    case 'RECEIVE_DECKS':
+    case RECEIVE_DECKS:
+      return {
+        ...state,
+        ...action.payload
+      }
+    case ADD_NEW_DESK:
       return {
         ...state,
         ...action.payload

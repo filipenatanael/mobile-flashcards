@@ -4,6 +4,7 @@ import { Router, Scene } from 'react-native-router-flux';
 /* Our components */
 import DeckList from '../components/DeckList';
 import NewDeck from '../components/NewDeck';
+import DeckView from '../components/DeckView';
 
 export default class Routes extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class Routes extends Component {
         <Scene key='root'>
           <Scene key='deckList' component={DeckList} title='Deck List' initial={true} />
           <Scene key='newDeck' component={NewDeck} title='New Deck' />
+          <Scene key='deckView' component={DeckView} title='Deck View' />
         </Scene>
       </Router>
     );
