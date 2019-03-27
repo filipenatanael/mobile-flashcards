@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image, ScrollView,
+  FlatList,
+  Dimensions,
+  TouchableHighlight,
+  Animated } from 'react-native';
 import styled from 'styled-components';
 import { Constants } from 'expo';
 import { bindActionCreators } from 'redux';
@@ -7,27 +16,39 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as DecksActions from '../actions/decks';
 
-function Desk({ title, numberOfCards }) {
+function Desk({ itemKey, title, numberOfCards }) {
   return (
-    <DeskContainer>
-      <View>
-        <Text style={{ textAlign: 'center', fontSize: 20, color: '#2d3436' }}>{title}</Text>
-        <Text style={{ textAlign: 'center', fontSize: 15, color: '#636e72', marginTop: 2 }}>{numberOfCards} Cards</Text>
-      </View>
-    </DeskContainer>
+    <TouchableOpacity onPress={() => Actions.deckView({ itemKey: itemKey })}>
+      <DeskContainer>
+        <View>
+          <Text style={{ textAlign: 'center', fontSize: 20, color: '#2d3436' }}>{title}</Text>
+          <Text style={{ textAlign: 'center', fontSize: 15, color: '#636e72', marginTop: 2 }}>{numberOfCards} Cards</Text>
+        </View>
+      </DeskContainer>
+    </TouchableOpacity>
   );
 }
 
 class DeckList extends Component {
+  state = {
+    opacity: new Animated.Value(0)
+  }
+
   componentWillMount() {
     this.props.loadDeckList();
   }
 
   renderItem = ({ item }) => {
-    return <Desk key={item} title={item.title} numberOfCards={item.questions.length} />
+    return <Desk key={item.key} itemKey={item.key} title={item.title} numberOfCards={item.questions.length} />
+  }
+
+  componentDidMount() {
+    const { opacity } = this.state;
+    Animated.timing(opacity, { toValue: 1, duration: 1000 }).start();
   }
 
   render() {
+    const { opacity } = this.state;
     const { decks } = this.props;
 
     const data = Object.keys(decks).map(function(key) {
@@ -35,7 +56,7 @@ class DeckList extends Component {
     });
 
     return (
-      <ListContainer>
+      <ListContainer as={Animated.View} style={[{ opacity }]}>
           <FlatList
             data={data}
             renderItem={this.renderItem}
