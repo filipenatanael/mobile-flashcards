@@ -16,13 +16,13 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as DecksActions from '../actions/decks';
 
-function Desk({ itemKey, title, numberOfCards }) {
+function Desk({ decKey, title, numberOfCards }) {
   return (
-    <TouchableOpacity onPress={() => Actions.deckView({ itemKey: itemKey })}>
+    <TouchableOpacity onPress={() => Actions.deckView({ decKey: decKey })}>
       <DeskContainer>
         <View>
-          <Text style={{ textAlign: 'center', fontSize: 20, color: '#2d3436' }}>{title}</Text>
-          <Text style={{ textAlign: 'center', fontSize: 15, color: '#636e72', marginTop: 2 }}>{numberOfCards} Cards</Text>
+          <Text style={{ textAlign: 'center', fontSize: 23, color: '#2d3436' }}>{title}</Text>
+          <Text style={{ textAlign: 'center', fontSize: 18, color: '#636e72', marginTop: 2 }}>{numberOfCards} Cards</Text>
         </View>
       </DeskContainer>
     </TouchableOpacity>
@@ -39,7 +39,7 @@ class DeckList extends Component {
   }
 
   renderItem = ({ item }) => {
-    return <Desk key={item.key} itemKey={item.key} title={item.title} numberOfCards={item.questions.length} />
+    return <Desk key={item.key} decKey={item.key} title={item.title} numberOfCards={item.questions.length} />
   }
 
   componentDidMount() {
