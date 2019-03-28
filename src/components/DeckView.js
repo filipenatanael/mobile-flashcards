@@ -43,7 +43,7 @@ class DeckView extends Component {
 
           <OverlayButton
             icon={require("../../assets/ic_play_game.png")}
-            onPress={() => alert('Play Game...')} />
+            onPress={() => Actions.quizView({ decKey: decKey }) } />
 
       </Container>
     );
