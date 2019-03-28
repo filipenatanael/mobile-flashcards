@@ -23,36 +23,24 @@ let dataStore = {
   // }
 }
 
-export function saveDeck(newDeck){
-  // AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, '');
+let callback = null
+
+export function _saveDeck(newDeck){
+  // clearStorage();
 
   AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((decksStored) => {
     let decksJSON = JSON.parse(decksStored);
     const mergeDesks = { ...decksJSON, ...newDeck};
     AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(mergeDesks), () => {
-      AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(deckResults)
+      AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(loggerResults)
     });
   })
 }
 
-let callback = null
-
-export function deckResults (results) {
-  console.log('Newdecks Stored [deckResults]: ',JSON.parse(results));
-  // dataStore = JSON.parse(results)
-  // callback(dataStore)
-}
-
-
-export function initDataStore(cb) {
-  callback = cb
-  // AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(deckResults)
-}
-
 /*
-getDecks: return all of the decks along with their titles, questions, and answers.
+_getDecks: return all of the decks along with their titles, questions, and answers.
 */
-export function getDecks(){
+export function _getDecks(){
   return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
     .then(response => JSON.parse(response))
       .then(response => {
@@ -61,48 +49,50 @@ export function getDecks(){
           : dataStore
   });
 }
+
+/*
+_saveCardToDeck: take in two arguments, title and card, and will add the card to the list of questions for the deck with the associated title.
+*/
+export function _saveCardToDeck(decKey, card){
+  return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((decksStored) => {
+    let decks = JSON.parse(decksStored);
+    decks[decKey].questions.push(card)
+    AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(decks));
+  })
+
+  // return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,JSON.stringify({ [decKey]: card }));
+}
+
+export function clearStorage() {
+  AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, '');
+}
+
+export function loggerResults(results) {
+  // console.log('Newdecks Stored [deckResults]: ', JSON.parse(results));
+}
+
+export function initDataStore(cb) {
+  callback = cb
+  // AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(deckResults)
+}
+
 /*
 getDeck: take in a single id argument and return the deck associated with that id.
 */
 export function getDeck(deckId){
-  const deckData = getDecks()
+  const deckData = _getDecks()
   console.log("all data:"+JSON.stringify(deckData))
   // AJS -- not sure if this works
   return deckData[deckId]
 }
 
 /*
-saveDeckTitle: take in a single title argument and add it to the decks.
+_saveDeckTitle: take in a single title argument and add it to the decks.
 AKA: "New Deck"
 */
-export function saveDeckTitle(title){
+export function _saveDeckTitle(title){
   var newEntry = {title:title,questions:new Array()}
   dataStore[title]=newEntry
-  //console.log("saveDeckTitle")
-  //console.log(dataStore)
-  saveDeck()
+  _saveDeck()
   //return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,JSON.stringify(newEntry))
-
-  //  title: 'React',
-  //  questions: []
-}
-/*
-addCardToDeck: take in two arguments, title and card, and will add the card to the list of questions for the deck with the associated title.
-
-*/
-export function addCardToDeck(title,card){
-
-  dataStore[title].questions.push(card)
-  saveDeck()
-
-  //  questions: []
-
-  //  {
-  //    question: 'What is React?',
-  //    answer: 'A library for managing user interfaces'
-  //  },
-
-  //  return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,JSON.stringify({
-  //  [title]:card,
-  //}))
 }

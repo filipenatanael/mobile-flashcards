@@ -1,4 +1,4 @@
-import { ADD_NEW_DESK, RECEIVE_DECKS } from '../actions/decks';
+import { ADD_NEW_DESK, RECEIVE_DECKS, ADD_NEW_CARD } from '../actions/decks';
 
 initialState = {
   CardDemo: {
@@ -17,7 +17,9 @@ initialState = {
 }
 
 export default function(state = initialState, action) {
-  console.log('FROM REDUCER: ', action);
+  if (action.type == 'ADD_NEW_CARD') {
+    console.log('FROM REDUCER: ', action);
+  }
   switch (action.type) {
     case RECEIVE_DECKS:
       return {
@@ -28,6 +30,15 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...action.payload
+      }
+    case ADD_NEW_CARD:
+      const { decKey, card } = action.payload;
+      return {
+        ...state,
+        [decKey]: {
+          ...state[decKey],
+          questions: state[decKey].questions.concat(card)
+        }
       }
     default:
       return state
