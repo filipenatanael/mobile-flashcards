@@ -21,8 +21,13 @@ class AddCard extends Component {
   }
 
   onSubmit = (decKey) => {
-    this.props.addCardToDeck(decKey, this.state);
-    alertMessage('Success!!', `A new card was added to ${decKey}.`, () => Actions.pop());
+    const { question, answer } = this.state;
+    if (question.length >= 5 && answer.length >= 5) {
+      this.props.addCardToDeck(decKey, this.state);
+      alertMessage('Success!!', `A new card was added to ${decKey}.`, () => Actions.pop());
+    } else {
+      alertMessage('Sorry!!', 'The question and answer needs at least 5 characters!', () => false);
+    }
   }
 
   render() {

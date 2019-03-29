@@ -17,8 +17,13 @@ class NewDeck extends Component {
    }
   */
   onSubmit = () => {
-    this.props.addNewDeck(this.state.title);
-    alertMessage('Success!!', 'A new deck was added!!', () => Actions.pop());
+    const { title } = this.state;
+    if (title.length >= 5) {
+      this.props.addNewDeck(this.state.title);
+      alertMessage('Success!!', 'A new deck was added!!', () => Actions.pop());
+    } else {
+      alertMessage('Sorry!!', 'The deck title needs at least 5 characters!', () => false);
+    }
   }
 
   render() {
