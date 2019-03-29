@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,13 +8,14 @@ class NewDeck extends Component {
   state = {
       title: ''
   }
-
-  // onSubmit() {
-  //    alert('I can refer this.. of that class without bind it on constructor. another way is use arrowfunctions as well')
-  // }
-
+  /*
+   onSubmit() {
+      alert('I can refer this.. of that class without bind it on constructor.
+     another way is use arrowfunctions as well')
+   }
+  */
   onSubmit = () => {
-    this.props.addNewDeck(this.state.title)
+    this.props.addNewDeck(this.state.title);
   }
 
   render() {
@@ -37,8 +37,7 @@ class NewDeck extends Component {
             onChangeText={(title) => this.setState({ title })}
           />
 
-          <TouchableOpacityCustom
-            onPress={this.onSubmit}>
+          <TouchableOpacityCustom onPress={this.onSubmit}>
               <SaveDeckButton>
                 Save Deck
               </SaveDeckButton>

@@ -6,6 +6,7 @@ class QuizView extends Component {
   componentDidMount() {
     clearLocalNotification().then(setLocalNotification);
   }
+  
   render() {
     return (
       <View>
