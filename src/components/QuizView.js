@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { setLocalNotification, clearLocalNotification } from '../../utils/helpers';
-import { black, green, red, lightpurple } from '../../utils/colors';
+import { black, lightWhite, lightYellow, lightGray, lightGreen, lightOrange, lightBlue } from '../../utils/colors';
+import TouchableOpacityCustom from './shared/TouchableOpacityCustom';
 
 class QuizView extends Component {
   state = {
@@ -49,7 +50,7 @@ class QuizView extends Component {
 
   render() {
     const { opacity, switchValue, cardPosition, rightAnswers, wrongAnswers } = this.state;
-    const { decks, decKey } = this.props;
+    const { decks } = this.props;
 
     const totalQuestions = decks.questions.length;
     const currentQuestion = decks.questions[cardPosition];
@@ -70,10 +71,20 @@ class QuizView extends Component {
 
           <ButtonsContainer style={{ marginTop: 20 }}>
             <View style={{ marginTop: 0 }}>
-              <Button title='Restart Quiz' color={green} onPress={() => this.restartQuiz()} />
+              <TouchableOpacityCustom
+                title='Restart Quiz'
+                color={black}
+                backgroundColor={lightBlue}
+                onPress={() => this.restartQuiz()}
+              />
             </View>
-            <View style={{ marginTop: 10 }}>
-              <Button title='Back To Deck' color={red} onPress={() => Actions.pop()} />
+            <View style={{ marginTop: 15 }}>
+              <TouchableOpacityCustom
+                title='Back To Deck'
+                color={black}
+                backgroundColor={lightGreen}
+                onPress={() => Actions.pop()}
+              />
             </View>
           </ButtonsContainer>
         </Container>
@@ -88,14 +99,17 @@ class QuizView extends Component {
           </Counter>
           <Question as={Animated.View} style={[{ opacity }]}>
             {!switchValue
-              ? <Text style={{ fontSize: 23, textAlign: 'center', color: black }}>{currentQuestion.question}</Text>
-              : <Text style={{ fontSize: 23, textAlign: 'center', color: black }}>{currentQuestion.answer}</Text>
+              ? <Text style={{ fontSize: 25, fontWeight: 'bold', textAlign: 'center', color: black }}>{currentQuestion.question}</Text>
+              : <Text style={{ fontSize: 25, fontWeight: 'bold', textAlign: 'center', color: black }}>{currentQuestion.answer}</Text>
             }
 
           </Question>
         </QuestionContainer>
 
         <SwitchContainer>
+         <Text style={{ fontSize: 18, color: black, textAlign: 'center', marginRight: 15 }}>
+          Show answer:
+         </Text>
           <Switch
             onValueChange={this.toggleSwitch}
             value={switchValue}
@@ -104,27 +118,31 @@ class QuizView extends Component {
 
         <ButtonsContainer>
           <View style={{ marginTop: 0 }}>
-            <Button
+            <TouchableOpacityCustom
               title="Corrent"
-              color={green}
+              color={black}
+              backgroundColor={lightGreen}
               onPress={() => {
                 this.setState({
                   cardPosition: cardPosition + 1,
-                  rightAnswers: wrongAnswers + 1
+                  rightAnswers: rightAnswers + 1,
+                  switchValue: false
                 });
-            }}
+              }}
             />
           </View>
-          <View style={{ marginTop: 10 }}>
-            <Button
+          <View style={{ marginTop: 15 }}>
+            <TouchableOpacityCustom
               title="Incorrent"
-              color={red}
+              color={black}
+              backgroundColor={lightOrange}
               onPress={() => {
                 this.setState({
                   cardPosition: cardPosition + 1,
-                  rightAnswers: rightAnswers + 1
+                  wrongAnswers: wrongAnswers + 1,
+                  switchValue: false
                 });
-            }}
+              }}
             />
           </View>
         </ButtonsContainer>
@@ -142,17 +160,18 @@ export default connect(mapStateToProps)(QuizView);
 const Container = styled.View`
   flex: 1;
   flexDirection: column;
-  margin: 7px;
+  padding: 15px;
+  backgroundColor: ${lightWhite};
 `;
 
 const QuestionContainer = styled.View`
   flex: 3;
-  backgroundColor: ${lightpurple};
+  backgroundColor: ${lightYellow};
   padding: 7px;
   borderWidth: 1;
-  borderColor: #ccc;
-  elevation: 2;
-  opacity: 0.8;
+  borderColor: ${lightGray};
+  elevation: 1;
+  opacity: 0.9;
   borderRadius: 4;
 `;
 
@@ -169,6 +188,8 @@ const Question = styled.View`
 
 const SwitchContainer = styled.View`
   flex: 1;
+  flexDirection: row;
+  alignItems: center;
   justifyContent: center;
 `;
 

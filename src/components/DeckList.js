@@ -2,28 +2,35 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
-  Image, ScrollView,
   FlatList,
   Dimensions,
-  TouchableHighlight,
-  Animated } from 'react-native';
+  Animated
+} from 'react-native';
 import styled from 'styled-components';
 import { Constants } from 'expo';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as DecksActions from '../actions/decks';
+import { black, gray } from '../../utils/colors';
+
+function getRandomColor() {
+  const position = Math.floor(Math.random() * 5);
+  const colors = ['#bedef2', '#bfeabe', '#f2d8c6', '#f0efb0'];
+  return colors[position];
+}
 
 function Desk({ decKey, title, numberOfCards }) {
+  const dynamicColor = getRandomColor();
+
   return (
-    <TouchableOpacity onPress={() => Actions.deckView({ decKey: decKey })}>
-      <DeskContainer>
-        <View>
-          <Text style={{ textAlign: 'center', fontSize: 23, color: '#2d3436' }}>{title}</Text>
-          <Text style={{ textAlign: 'center', fontSize: 18, color: '#636e72', marginTop: 2 }}>{numberOfCards} Cards</Text>
-        </View>
+    <TouchableOpacity onPress={() => Actions.deckView({ decKey, dynamicColor })}>
+      <DeskContainer style={{ backgroundColor: `${dynamicColor}` }}>
+          <View>
+            <Text style={{ textAlign: 'center', fontSize: 23, fontWeight: 'bold', color: `${black}` }}>{title}</Text>
+            <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: `${gray}`, marginTop: 2 }}>{numberOfCards} Cards</Text>
+          </View>
       </DeskContainer>
     </TouchableOpacity>
   );
@@ -38,21 +45,26 @@ class DeckList extends Component {
     this.props.loadDeckList();
   }
 
-  renderItem = ({ item }) => {
-    return <Desk key={item.key} decKey={item.key} title={item.title} numberOfCards={item.questions.length} />
-  }
-
   componentDidMount() {
     const { opacity } = this.state;
     Animated.timing(opacity, { toValue: 1, duration: 1000 }).start();
+  }
+
+  renderItem = ({ item }) => {
+    return <Desk
+      key={item.key}
+      decKey={item.key}
+      title={item.title}
+      numberOfCards={item.questions.length}
+    />;
   }
 
   render() {
     const { opacity } = this.state;
     const { decks } = this.props;
 
-    const data = Object.keys(decks).map(function(key) {
-      return { 'key': key, ...decks[key]}
+    const data = Object.keys(decks).map((key) => {
+      return { key, ...decks[key] }
     });
 
     return (
@@ -91,18 +103,19 @@ const ListContainer = styled.View`
   flex: 1;
   flexDirection: column;
   marginTop: 0px;
-  marginLeft: 7px;
-  marginRight: 7px;
-  marginBottom: 7px;
+  paddingLeft: 15px;
+  paddingRight: 15px;
+  paddingBottom: 15px;
+  backgroundColor: #fcfcfc;
   zIndex: 1;
 `;
 
 const DeskContainer = styled.View`
   flexDirection: row;
   height: 100px;
-  marginTop: 10px;
+  marginTop: 15px;
   padding: 10px;
-  backgroundColor: #a29bfe;
+  backgroundColor: #f0efb0;
   justifyContent: center;
   alignItems: center;
   borderRadius: 4;
@@ -120,5 +133,5 @@ const AddButtonOverlay = styled.View`
   position: absolute;
   marginTop: ${height - (7 * Constants.statusBarHeight)};
   marginLeft: ${width - 80};
-  opacity: 0.7;
+  opacity: 0.6;
 `;

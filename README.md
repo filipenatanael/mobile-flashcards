@@ -11,16 +11,11 @@
 <h4>Project Overview</h4>
 The app allows users to create different categories of flashcards called "decks", add flashcards to those decks, then take quizzes on those decks.
  </p>
- 
 <br>
 
-## Stack
-- React & Redux
-- Redux Thunk
-- Styled Components
-- Expo
+<img align="right" src="https://i.ibb.co/DbVc1y2/mobile-flashcards.gif" alt="drawing" width="250" height="500" />
 
-## Running
+### Usage
 
 ```shell
   git clone git@github.com:filipenatanael/mobile-flashcards.git
@@ -29,10 +24,16 @@ The app allows users to create different categories of flashcards called "decks"
   npm start
 ```
 
-## Architecture
+### Stack
+- React & Redux
+- Redux Thunk
+- Styled Components
+- Expo
+
+### Architecture
 This application was built looking for the best abstraction possible of the functionalities, in order to facilitate the understanding and future maintenance.
 
-## Author
+### Author
 
 | [<img src="https://avatars3.githubusercontent.com/u/14134758?s=115&v=3"><br><sub>@filipenatanael</sub>](https://github.com/filipenatanael) |
 | :---: |
