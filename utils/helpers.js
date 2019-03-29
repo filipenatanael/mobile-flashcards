@@ -1,22 +1,21 @@
-import React from 'react'
-import { View, StyleSheet, AsyncStorage } from 'react-native'
-import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { Notifications, Permissions } from 'expo'
+import React from 'react';
+import { AsyncStorage } from 'react-native';
+import { Notifications, Permissions } from 'expo';
 
-const NOTIFICATION_KEY = 'MobileFlashcards:notifications'
+const NOTIFICATION_KEY = 'MobileFlashcards:notifications';
 
-export function timeToString (time = Date.now()) {
-  const date = new Date(time)
-  const todayUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
-  return todayUTC.toISOString().split('T')[0]
+export function timeToString(time = Date.now()) {
+  const date = new Date(time);
+  const todayUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  return todayUTC.toISOString().split('T')[0];
 }
 
-export function clearLocalNotification () {
+export function clearLocalNotification() {
   return AsyncStorage.removeItem(NOTIFICATION_KEY)
-    .then(Notifications.cancelAllScheduledNotificationsAsync)
+    .then(Notifications.cancelAllScheduledNotificationsAsync);
 }
 
-function createNotification () {
+function createNotification() {
   return {
     title: 'Log your stats!',
     body: "👋 don't forget to study!",
@@ -29,10 +28,10 @@ function createNotification () {
       sticky: false,
       vibrate: true,
     }
-  }
+  };
 }
 
-export function setLocalNotification () {
+export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then((data) => {
@@ -40,12 +39,12 @@ export function setLocalNotification () {
         Permissions.askAsync(Permissions.NOTIFICATIONS)
           .then(({ status }) => {
             if (status === 'granted') {
-              Notifications.cancelAllScheduledNotificationsAsync()
+              Notifications.cancelAllScheduledNotificationsAsync();
 
-              let tomorrow = new Date()
-              tomorrow.setDate(tomorrow.getDate() + 1)
-              tomorrow.setHours(20)
-              tomorrow.setMinutes(0)
+              const tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              tomorrow.setHours(20);
+              tomorrow.setMinutes(0);
 
               Notifications.scheduleLocalNotificationAsync(
                 createNotification(),
@@ -53,11 +52,11 @@ export function setLocalNotification () {
                   time: tomorrow,
                   repeat: 'day',
                 }
-              )
+              );
 
-              AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+              AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
             }
-          })
+          });
       }
-    })
+    });
 }
