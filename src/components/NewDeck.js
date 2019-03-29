@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Actions } from 'react-native-router-flux';
 import * as DecksActions from '../actions/decks';
 import { alertMessage } from '../../utils/helpers';
+import { lightWhite, black, lightGray, lightGreen, lightBlue } from '../../utils/colors';
 
 class NewDeck extends Component {
   state = {
@@ -64,14 +65,15 @@ export default connect(null, mapDispachToProps)(NewDeck);
 const Container = styled.View`
   flex: 1;
   flexDirection: column;
-  margin: 10px;
+  padding: 10px;
+  backgroundColor: ${lightWhite}
 `;
 
 const Header = styled.View`
   flex: 1;
   justifyContent: center;
   alignItems: center;
-  backgroundColor: #dfe6e9;
+  backgroundColor: ${lightBlue};
   borderRadius: 4;
   shadowRadius: 3;
   shadowOpacity: 1;
@@ -82,7 +84,7 @@ const Title = styled.Text`
   textAlign: center;
   fontSize: 23;
   fontWeight: bold;
-  color: #6c5ce7;
+  color: ${black};
 `;
 
 const Body = styled.View`
@@ -92,8 +94,8 @@ const Body = styled.View`
 
 const TextInputCustom = styled.TextInput`
   height: 50;
-  color: #2d3436;
-  borderColor: #636e72;
+  color: ${black};
+  borderColor: ${lightGray};
   borderWidth: 0.3;
   borderRadius: 4;
   paddingLeft: 12;
@@ -102,7 +104,7 @@ const TextInputCustom = styled.TextInput`
 
 const TouchableOpacityCustom = styled.TouchableOpacity`
   marginTop: 30;
-  backgroundColor: #636e72;
+  backgroundColor: ${lightGreen};
   paddingTop: 10;
   paddingBottom: 10;
   borderRadius: 35;
@@ -115,5 +117,5 @@ const SaveDeckButton = styled.Text`
   textAlign: center;
   fontSize: 23;
   fontWeight: bold;
-  color: #fff;
+  color: ${black};
 `;
