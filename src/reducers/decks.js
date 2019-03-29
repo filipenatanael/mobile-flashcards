@@ -1,8 +1,8 @@
 import { ADD_NEW_DESK, RECEIVE_DECKS, ADD_NEW_CARD } from '../actions/decks';
 
 initialState = {
-  CardDemo: {
-    title: 'Card Demo Redux',
+  React: {
+    title: 'React',
     questions: [
       {
         question: 'What is React?',

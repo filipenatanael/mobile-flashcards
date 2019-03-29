@@ -3,12 +3,12 @@ import { AsyncStorage } from 'react-native';
 export const FLASHCARD_STORAGE_KEY = 'MobileFlashcards:flashcards';
 
 const dataStore = {
-  CardDemo: {
-    title: 'CardDemo',
+  Redux: {
+    title: 'Redux',
     questions: [
       {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
+        question: 'What is Redux?',
+        answer: 'Redux is a predictable state container for JavaScript apps'
       }
     ]
   }
