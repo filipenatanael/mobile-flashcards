@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Animated } from 'react-native';
+import { View, Text, Animated, Alert } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import OverlayButton from './shared/OverlayButton';
+import { alertMessage } from '../../utils/helpers';
 
 class DeckView extends Component {
   state = {
@@ -27,23 +28,48 @@ class DeckView extends Component {
       <Container>
         <DeskContainer>
           <View>
-            <Text style={{ textAlign: 'center', fontSize: 23, color: '#2d3436' }}>{decks.title}</Text>
-            <Text style={{ textAlign: 'center', fontSize: 18, color: '#636e72', marginTop: 2 }}>{decks.questions.length} Cards</Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 23,
+                color: '#2d3436'
+                }}>
+                {decks.title}
+            </Text>
+
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 18,
+                color: '#636e72',
+                marginTop: 2
+                }}>
+              {decks.questions.length} Cards
+            </Text>
           </View>
         </DeskContainer>
 
         <ImageContainer>
-          <Animated.Image style={{ opacity, width, height, marginTop: -90 }} source={require('../../assets/ic_question.jpg')} />
+          <Animated.Image
+            style={{ opacity, width, height, marginTop: -90 }}
+            source={require('../../assets/ic_question.jpg')}
+          />
         </ImageContainer>
 
           <OverlayButton
             marginLeft={10}
-            icon={require("../../assets/ic_add_circle.png")}
-            onPress={() => Actions.addCard({ decKey: decKey }) } />
+            icon={require('../../assets/ic_add_circle.png')}
+            onPress={() => Actions.addCard({ decKey })}
+          />
 
           <OverlayButton
-            icon={require("../../assets/ic_play_game.png")}
-            onPress={() => Actions.quizView({ decKey: decKey }) } />
+            icon={require('../../assets/ic_play_game.png')}
+            onPress={() => {
+              decks.questions.length <= 0
+                ? alertMessage('Sorry!!', 'You dont have cards to this deck yet.', () => false)
+                : Actions.quizView({ decKey })
+            }}
+          />
 
       </Container>
     );
@@ -52,7 +78,7 @@ class DeckView extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   decks: state.decks[ownProps.decKey]
-})
+});
 
 export default connect(mapStateToProps)(DeckView);
 

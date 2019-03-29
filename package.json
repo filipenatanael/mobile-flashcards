@@ -17,7 +17,8 @@
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "babel-preset-expo": "^5.0.0",
+    "eslint-config-rallycoding": "^3.2.0"
   },
   "private": true
 }

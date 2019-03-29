@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Actions } from 'react-native-router-flux';
 import * as DecksActions from '../actions/decks';
+import { alertMessage } from '../../utils/helpers';
 
 class NewDeck extends Component {
   state = {
       title: ''
   }
-
-  // onSubmit() {
-  //    alert('I can refer this.. of that class without bind it on constructor. another way is use arrowfunctions as well')
-  // }
-
+  /*
+   onSubmit() {
+      alert('I can refer this.. of that class without bind it on constructor.
+     another way is use arrowfunctions as well')
+   }
+  */
   onSubmit = () => {
-    this.props.addNewDeck(this.state.title)
+    const { title } = this.state;
+    if (title.length >= 5) {
+      this.props.addNewDeck(this.state.title);
+      alertMessage('Success!!', 'A new deck was added!!', () => Actions.pop());
+    } else {
+      alertMessage('Sorry!!', 'The deck title needs at least 5 characters!', () => false);
+    }
   }
 
   render() {
@@ -37,8 +45,7 @@ class NewDeck extends Component {
             onChangeText={(title) => this.setState({ title })}
           />
 
-          <TouchableOpacityCustom
-            onPress={this.onSubmit}>
+          <TouchableOpacityCustom onPress={this.onSubmit}>
               <SaveDeckButton>
                 Save Deck
               </SaveDeckButton>
