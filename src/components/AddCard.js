@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Actions } from 'react-native-router-flux';
 import * as DecksActions from '../actions/decks';
 import styled from 'styled-components';
+import { alertMessage } from '../../utils/helpers';
 
 class AddCard extends Component {
   state = {
@@ -12,16 +13,16 @@ class AddCard extends Component {
     answer: ''
   }
 
-  static navigationOptions = ({navigation}) => {
-    const { decKey } = navigation.state.params
+  static navigationOptions = ({ navigation }) => {
+    const { decKey } = navigation.state.params;
     return {
-      title: 'Add card to ' + decKey
-    }
+      title: `Add card to ${decKey}`
+    };
   }
 
   onSubmit = (decKey) => {
     this.props.addCardToDeck(decKey, this.state);
-    Actions.deckView({ decKey })
+    alertMessage('Success!!', `A new card was added to ${decKey}.`, () => Actions.pop());
   }
 
   render() {

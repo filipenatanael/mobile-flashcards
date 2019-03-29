@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Actions } from 'react-native-router-flux';
 import * as DecksActions from '../actions/decks';
+import { alertMessage } from '../../utils/helpers';
 
 class NewDeck extends Component {
   state = {
@@ -16,6 +18,7 @@ class NewDeck extends Component {
   */
   onSubmit = () => {
     this.props.addNewDeck(this.state.title);
+    alertMessage('Success!!', 'A new deck was added!!', () => Actions.pop());
   }
 
   render() {

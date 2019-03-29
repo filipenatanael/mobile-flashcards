@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Animated } from 'react-native';
+import { View, Text, Animated, Alert } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import OverlayButton from './shared/OverlayButton';
+import { alertMessage } from '../../utils/helpers';
 
 class DeckView extends Component {
   state = {
@@ -63,7 +64,11 @@ class DeckView extends Component {
 
           <OverlayButton
             icon={require('../../assets/ic_play_game.png')}
-            onPress={() => Actions.quizView({ decKey })}
+            onPress={() => {
+              decks.questions.length <= 0
+                ? alertMessage('Sorry!!', 'You dont have cards to this deck yet.', () => false)
+                : Actions.quizView({ decKey })
+            }}
           />
 
       </Container>

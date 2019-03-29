@@ -73,7 +73,7 @@ class QuizView extends Component {
               <Button title='Restart Quiz' color={green} onPress={() => this.restartQuiz()} />
             </View>
             <View style={{ marginTop: 10 }}>
-              <Button title='Back To Deck' color={red} onPress={() => Actions.deckView({ decKey })} />
+              <Button title='Back To Deck' color={red} onPress={() => Actions.pop()} />
             </View>
           </ButtonsContainer>
         </Container>
