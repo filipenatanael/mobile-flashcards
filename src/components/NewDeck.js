@@ -21,7 +21,7 @@ class NewDeck extends Component {
     const { title } = this.state;
     if (title.length >= 5) {
       this.props.addNewDeck(this.state.title);
-      alertMessage('Success!!', 'A new deck was added!!', () => Actions.pop());
+      alertMessage('Success!!', 'A new deck was added!!', () => Actions.deckView({ decKey: title }));
     } else {
       alertMessage('Sorry!!', 'The deck title needs at least 5 characters!', () => false);
     }
